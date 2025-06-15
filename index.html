@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Nosso Dia 💕</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- Slideshow de fundo -->
+    <div class="slideshow">
+        <img src="fotos/1.jpg" alt="Foto 1" />
+        <img src="fotos/2.jpg" alt="Foto 2" />
+        <img src="fotos/3.jpg" alt="Foto 3" />
+        <img src="fotos/4.jpg" alt="Foto 4" />
+        <img src="fotos/5.jpg" alt="Foto 5" />
+    </div>
+
+    <!-- Texto com contador -->
+    <div class="texto-fixo">
+        <h1>Estamos juntos há...</h1>
+        <div id="contador">Carregando...</div>
+        <p>Desde o dia <strong>17 de maio de 2025</strong> 💑</p>
+    </div>
+
+    <!-- Botão para iniciar música -->
+    <button id="botao-musica">🎵 Nossa Música</button>
+
+    <!-- Áudio -->
+    <audio id="audio-fundo" loop>
+        <source src="audio/musica.mp3" type="audio/mpeg" />
+        Seu navegador não suporta áudio HTML5.
+    </audio>
+
+    <script>
+        const botao = document.getElementById("botao-musica");
+        const audio = document.getElementById("audio-fundo");
+
+        botao.addEventListener("click", () => {
+            audio.play().then(() => {
+                botao.style.display = "none";
+            }).catch((error) => {
+                console.log("Erro ao tentar tocar o áudio:", error);
+                alert("Não foi possível tocar a música automaticamente. Por favor, tente novamente.");
+            });
+        });
+
+        // Contador
+        const dataNamoro = new Date("2025-05-17T23:59:00");
+
+        function atualizarContador() {
+            const agora = new Date();
+            let anos = agora.getFullYear() - dataNamoro.getFullYear();
+            let meses = agora.getMonth() - dataNamoro.getMonth();
+            let dias = agora.getDate() - dataNamoro.getDate();
+            let horas = agora.getHours() - dataNamoro.getHours();
+            let minutos = agora.getMinutes() - dataNamoro.getMinutes();
+            let segundos = agora.getSeconds() - dataNamoro.getSeconds();
+
+            if (segundos < 0) { segundos += 60; minutos--; }
+            if (minutos < 0) { minutos += 60; horas--; }
+            if (horas < 0) { horas += 24; dias--; }
+            if (dias < 0) {
+                const ultimoMes = new Date(agora.getFullYear(), agora.getMonth(), 0);
+                dias += ultimoMes.getDate();
+                meses--;
+            }
+            if (meses < 0) { meses += 12; anos--; }
+
+            document.getElementById("contador").innerHTML =
+                `${anos} ano(s), ${meses} mês(es), ${dias} dia(s),<br>` +
+                `${horas} hora(s), ${minutos} minuto(s), ${segundos} segundo(s) 💖`;
+        }
+
+        atualizarContador();
+        setInterval(atualizarContador, 1000);
+    </script>
+
+</body>
